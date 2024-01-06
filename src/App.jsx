@@ -10,8 +10,8 @@ const ItemEntry = {
   objectId: 0,
 };
 
-const setStories = 'SET_STORIES';
-const removeStories = 'REMOVE_STORIES';
+const SET_STORIES = "SET_STORIES";
+const REMOVE_STORY = "REMOVE_STORIES";
 
 const useStorageState = (key, initial) => {
   const [value, setValue] = React.useState(
@@ -51,9 +51,9 @@ const getAsyncStories = () =>
 
 const storiesReducer = (state, action) => {
   switch (action.type) {
-    case "SET_STORIES":
+    case SET_STORIES:
       return action.payload;
-    case "REMOVE_STORIES":
+    case REMOVE_STORY:
       return state.filter((story) => action.payload.objectID != story.objectID);
     default:
       throw new Error();
@@ -71,7 +71,7 @@ const App = () => {
     getAsyncStories()
       .then((result) => {
         dispatchStories({
-          type: "SET_STORIES",
+          type: SET_STORIES,
           payload: result.data.stories,
         });
         setIsLoaded(true);
@@ -82,7 +82,7 @@ const App = () => {
   const handleRemoveStory = (item) => {
     console.log(`objectID=${item.objectID}`);
     dispatchStories({
-      type: "REMOVE_STORIES",
+      type: REMOVE_STORY,
       payload: item,
     });
   };
