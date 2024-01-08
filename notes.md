@@ -9,7 +9,7 @@ VITE is a build tool for modern frameworks. The books uses
 this to get a react development environment up and running. The
 environment includes a dev server to serve the project. VITE
 [requires Node.js version 18+ or 20+](https://vitejs.dev/guide/).
-The apt version is 12, the snap version is 
+The apt version is 12, the snap version is
 
     $ sudo apt-get remove node
     $ sudo snap install node --classic
@@ -276,5 +276,69 @@ arrives.  The useEffect depency list is [], meaning "the side-effect
 only runs once the component renders for the first time."
 
 A Promise and the setTimeout function are used to get the data - more
-on Promises in the links at the end of the chapter.
+on [Promises](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise)
+in the links at the end of the chapter.
+
+
+### React Conditional Rendering
+
+This is a straightforward section to show how to render different
+elements based on state variables. The main take away for me is
+that the conditional rendering can be done right in the JSX/html
+code with:
+
+    { condition ? <elements> : <element> }
+
+or
+
+    { condition && <element> }
+
+
+### React Advanced State
+
+Reducers are introduced. Reducers replace state with state machines.
+Where as for the useState hook where React creates a state variable
+and provides a setter function, the useReduce hook asks React to store
+both a state transition function (the reducer) and a state
+variable. The state variable can still be set to an initial value but
+subsequent values are set by dispatching an action object, with its
+tpe and payload fields object for deterimining the new state (via the
+dispatch function returned by useReducer) - implicitly React calls the
+reducer and sets the new state value to the returned value.  The
+reducer receives the entering *state* and user passed action as its
+inputs.
+
+The simplest reducer, which would just set the new state to the value
+passed to it, basically reduces to useState.
+
+Following the book example, the state need not be a simple scalar.
+In the example, it is a list of the current stories - an arbitrary
+JavaScript object.
+
+
+### React Impossible States
+
+This chaper doesn't introduce any new React functionality, but
+demonstrates a best practice state implementation. It notes that
+using multiple state variables (from multiple useState
+calls in the same function) can lead to impossible states - as,
+for example, if an error occurs while fetching the stories but
+isLoading is still set to true. When you have multiple state
+variables the effective state is the set of all possible values
+of those variables.
+
+This chapter shows how to combine the various useState variables
+into a single state object and use the reducer to process all
+state transition on this single complex object and ensure that
+impossible states cannot be reached.
+
+It makes clearer that the Reducer takes an action (with type and  payload
+subfields) and the current state as its input and must return the
+new state fully specified depending on the current state, action type
+and payload. The JavaScript spread operator is leaned on heavily
+in this example here to set all of the state fields from the previous
+state and then the reducer explictly sets all of the new ones.
+
+
+
 
