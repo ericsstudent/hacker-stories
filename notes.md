@@ -352,3 +352,25 @@ The hacker news site returns a list of hits in its result.
 The API is richer than that, possible for doing more complicated
 testing (https://hn.algolia.com/api).
 
+
+### Data Re-Fetching
+
+This chapter introduces a design change where new search terms fetch
+data from the server (server side filter instead of client side).
+Attempting the change on my own - its unclear whether each change
+in the searh term input should trigger a new search or an associated
+button should be introduced to submit. The second case seems more likely
+so anticipate the changes will be - add a button, move the searched
+term to the state and get rid of its useState and associated filter,
+handler, replace initial state population with a request
+to the server when the button is pressed.
+
+Reading through the rest, turns out the authors don't go all of the way
+to a working resolution - they just change the query to hacker news
+to use the current searchTerm instead of react and also now call
+the reducer whenever searchTerm changes, by adding it to the reducer's
+dependeny list, and guard againt an empty search term.
+
+It works, but not really - a server query is triggered on every keystroke
+and the search box loses focus - so every time you type, you need to click
+back on the input to type again.
