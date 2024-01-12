@@ -340,5 +340,15 @@ in this example here to set all of the state fields from the previous
 state and then the reducer explictly sets all of the new ones.
 
 
+### Data Fetching with React
 
+This chapter replaces the internal mock asynchrouns fetch with use of
+the [fetch API](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API) to
+retrive data from a mock web service called Hacker News
+(https://hn.algolia.com/). The change is mostly a drop-in
+as the fetch method returns a Promise just as our getAsyncStories did.
+
+The hacker news site returns a list of hits in its result.
+The API is richer than that, possible for doing more complicated
+testing (https://hn.algolia.com/api).
 
