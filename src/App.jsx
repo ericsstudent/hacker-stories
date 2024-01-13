@@ -73,7 +73,7 @@ const App = () => {
     isError: false,
   });
 
-  React.useEffect(() => {
+  const handleFetchStories = React.useCallback(() => {
     console.log("useEffect");
 
     if (!searchTerm) return;
@@ -94,6 +94,10 @@ const App = () => {
         });
       });
   }, [searchTerm]);
+
+  React.useEffect(() => {
+      handleFetchStories();
+  }, [handleFetchStories]);
 
   const handleRemoveStory = (item) => {
     console.log(`objectID=${item.objectID}`);

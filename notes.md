@@ -374,3 +374,33 @@ dependeny list, and guard againt an empty search term.
 It works, but not really - a server query is triggered on every keystroke
 and the search box loses focus - so every time you type, you need to click
 back on the input to type again.
+
+
+### Memoized Functions in React
+
+Memoization is an optimization - a mechanism for cacheing the result
+of expensive calculations. Reading about this, Python functools.cache
+(since 3.9) and funtools.lru_cache (since 3.2) are decorators for
+wrapping a function. If the function arguments are the same as a previous
+call, the cache'd results is returned immediately.
+
+In React there is the useMemo hook (not introduced yet but discussed in
+the end of chapter links) for cacheing values and useCallback
+for cacheing functions. The idea in React's context is to short circuit
+re-rendering any component that has not changed state - in the context
+of the examples - if the prop list to the component is not change, the
+component is not rerendered. In the online explanation, the author
+shows two examples - one where the props just contain values and another
+where the prop contains values and an event handler. In the first case
+the memo API is used on the prop values and this is enough to
+accomplish the task. In the second variation, memoizing the values
+turns out to be insufficient - the event handler function, defined
+every time the App component function is called - is a different
+function every time - so becomes a different argument to the sub
+components. useCallback wraps the function such that it only changes
+when one of it's dependencies changes - like the useEffect hook,
+the useCallback hook has a dependency list.
+
+
+### Explicit Data Fetching with React
+
