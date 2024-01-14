@@ -55,7 +55,7 @@ then is:
 path - so can just run normally).
 
 
-## Chapter Notes
+## Fundamentals of React - notes
 
 ### React Controlled Components
 
@@ -548,3 +548,29 @@ The event argument is now added (from the previous version) and it is
 "short circuited" by calling preventDefault here.
 
 
+### Summary
+
+
+
+## A Roadmap for React
+
+This section sets a plan for learning React from here.
+
+First piece of advicee - try to do a project now using the
+fundamentals. That will cement understanding and enable ability to go
+find answers among the resources from the rest of the book. Probably
+echoing book contents the author writes an [annual
+summary](https://www.robinwieruch.de/react-libraries/) of useful
+libraries by subject - styling, routing, making payments, graphing,
+etc.
+
+Second - the author did not discuss React Context and the
+useContext hook, but it is often used in larger projects, so it is a
+central React feature, just not for a novice in a small scale project.
+
+Third - mentions babel and webpack for setting up a project from scratch.
+These are used everywhere to build modern JavaScript projects.
+
+The final diagram shows different topic paths covered by the rest
+of the book and how to follow them. Some are parallel, some are linear,
+apparently each will still introduce changes to the demonstration project.
