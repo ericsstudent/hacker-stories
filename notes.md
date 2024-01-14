@@ -425,4 +425,126 @@ value to the event handler when the submit button is clicked turned
 out to be easy - the value is already stored in searchTerm so the
 argument list to handleSearchSubmit is empty and the url is just
 formed from the URL + searchTerm which is a local state variable
-in the App component.
+in the App component. Also, the button was not event added to the
+InputWithLable component but just left adjacent to it. No html
+form was used - not even sure how that would work since my current
+understanding is that an html form sends the value of the form
+in a url in response to a button click (automatically?) so React
+would need to intercept that - there is probably a hook for that.
+(Ah see 2 chapters down *Forms in React* for the answer).
+
+
+### Third Party Libraries in React
+
+This is a very short chapter demonstrating how to use third
+party libraries in React - short answer, install with npm,
+import them at the top of you Javascript file and use
+appropriately.
+
+The specific example here is replacing the native fetch
+call with axios, which performs the same fetch but does
+the json conversion automatically, eliminating that call
+from the fetch version. The code notes that older browsers
+may not support fetch or that fetch may not operate in
+a headless environment where the browser is not available.
+So that's the motivation for the example.
+
+
+### Async/Await in React
+
+Promise is replaced by async/await syntax, which the book states is
+the modern method of coding asynchronous transactions.  The
+promise.then.catch block is reworked so that the handleFetchStories
+callback function is now declared as asynchronous which permits await
+statement inside.
+
+The pleasant part of this is that, just naively reading the new
+function, it reads like the nice ordered series of steps needed
+to fetch and render the data - start fetch, wait for it and
+dispatch - but obviously the underlying sequence of code is
+more complicated.
+
+    const handleFetchStories = React.useCallback(async () => {
+      console.log("useEffect");
+
+      if (!searchTerm) return;
+
+      dispatchStories({ type: STORIES_FETCH_INIT });
+
+      const result = await axios.get(url);
+
+      dispatchStories({
+        type: STORIES_FETCH_SUCCESS,
+        payload: result.data.hits,
+      });
+    }, [url]);
+
+
+The other benefit is now a try/catch block can be put around the
+axios.get call which is more familiar than the .then.catch chain
+to non JavaScript programmers.
+
+
+### Forms in React
+
+This answers the question from two sections ago when the submit
+button was added. Two steps occur - 1) a form is created to encapsulate
+our InputWithLabel component and the submit button:
+
+    <form onSubmit={onSearchSubmit}>
+      <InputWithLabel
+        id="search"
+        value={searchTerm}
+        onInputChange={onSearchInput}
+      >
+        <strong>Search: </strong>
+      </InputWithLabel>
+
+      <button type="submit" disabled={!searchTerm}>
+        Submit
+      </button>
+    </form>
+
+2) A new *SearchForm* is created to encapsulate the form and it is
+incorporated into the App JSX:
+
+    <div>
+      <h1>My Hacker Story</h1>
+      {stories.isError && <p>Something went wrong</p>}
+      {stories.isLoading ? (
+        <p>Loading...</p>
+      ) : (
+        <SearchForm
+          searchTerm={searchTerm}
+          onSearchInput={handleSearchInput}
+          onSearchSubmit={handleSearchSubmit}
+        />
+      )}
+      ;
+      <List list={stories.data} onRemoveItem={handleRemoveStory} />
+      <BarChart />
+    </div>
+
+The interesting part of both of these excerpts is that the composition
+of html and React components looks naturally like regular html - the form
+has a button (html) and InputWithLable (React) element, the App has
+h1 and div elements mixed with SearchForm and List.
+
+The other question I did not know how to answer was that, but default a
+form submits a query to a URL with the value of the form - but there
+must be a way to intercept that. As shown above, the form *onSubmit*
+attribute can be assigned a callback to hanle (and intercept) the submit
+event. That handler looks like this now:
+
+
+    const handleSearchSubmit = (event) => {
+      setUrl(`${API_ENDPOINT}${searchTerm}`);
+
+      event.preventDefault();
+    };
+
+
+The event argument is now added (from the previous version) and it is
+"short circuited" by calling preventDefault here.
+
+
