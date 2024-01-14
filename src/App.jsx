@@ -83,26 +83,19 @@ const App = () => {
     setUrl(API_ENDPOINT + searchTerm);
   };
 
-  const handleFetchStories = React.useCallback(() => {
+  const handleFetchStories = React.useCallback(async () => {
     console.log("useEffect");
 
     if (!searchTerm) return;
 
     dispatchStories({ type: STORIES_FETCH_INIT });
 
-    axios
-      .get(url)
-      .then((result) => {
-        dispatchStories({
-          type: STORIES_FETCH_SUCCESS,
-          payload: result.data.hits,
-        });
-      })
-      .catch(() => {
-        dispatchStories({
-          type: STORIES_FETCH_FAILURE,
-        });
-      });
+    const result = await axios.get(url);
+
+    dispatchStories({
+      type: STORIES_FETCH_SUCCESS,
+      payload: result.data.hits,
+    });
   }, [url]);
 
   React.useEffect(() => {
