@@ -404,3 +404,25 @@ the useCallback hook has a dependency list.
 
 ### Explicit Data Fetching with React
 
+This chapter corrects the addresses the unfinished design change from
+Data Refetching - instead of submitting a search to the server on every
+change to the input, it introduces a buttom to submit the search.
+
+The change turns out to be simple - keeping the searchTerm state
+variable which continues to hold the current value in the search
+input, add another *url* state variable to hold the full URL for
+submission. Each variable has a handler to save the value -
+handleSearchInput to store the searchTerm whenever someone types,
+and handleSearchSubmit to store the url whenever some clicks
+the submit button.
+
+The useEffect dependency list is then changed to depend only
+on *url* so that a search is triggered only after a handleSearchSubmit
+event.
+
+The problem I didn't know how to solve - how to send the search input
+value to the event handler when the submit button is clicked turned
+out to be easy - the value is already stored in searchTerm so the
+argument list to handleSearchSubmit is empty and the url is just
+formed from the URL + searchTerm which is a local state variable
+in the App component.
