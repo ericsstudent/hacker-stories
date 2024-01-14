@@ -447,3 +447,39 @@ from the fetch version. The code notes that older browsers
 may not support fetch or that fetch may not operate in
 a headless environment where the browser is not available.
 So that's the motivation for the example.
+
+
+### Async/Await in React
+
+Promise is replaced by async/await syntax, which the book states is
+the modern method of coding asynchronous transactions.  The
+promise.then.catch block is reworked so that the handleFetchStories
+callback function is now declared as asynchronous which permits await
+statement inside.
+
+The pleasant part of this is that, just naively reading the new
+function, it reads like the nice ordered series of steps needed
+to fetch and render the data - start fetch, wait for it and
+dispatch - but obviously the underlying sequence of code is
+more complicated.
+
+    const handleFetchStories = React.useCallback(async () => {
+      console.log("useEffect");
+
+      if (!searchTerm) return;
+
+      dispatchStories({ type: STORIES_FETCH_INIT });
+
+      const result = await axios.get(url);
+
+      dispatchStories({
+        type: STORIES_FETCH_SUCCESS,
+        payload: result.data.hits,
+      });
+    }, [url]);
+
+
+The other benefit is now a try/catch block can be put around the
+axios.get call which is more familiar than the .then.catch chain
+to non JavaScript programmers.
+
