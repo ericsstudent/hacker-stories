@@ -425,4 +425,25 @@ value to the event handler when the submit button is clicked turned
 out to be easy - the value is already stored in searchTerm so the
 argument list to handleSearchSubmit is empty and the url is just
 formed from the URL + searchTerm which is a local state variable
-in the App component.
+in the App component. Also, the button was not event added to the
+InputWithLable component but just left adjacent to it. No html
+form was used - not even sure how that would work since my current
+understanding is that an html form sends the value of the form
+in a url in response to a button click (automatically?) so React
+would need to intercept that - there is probably a hook for that.
+
+
+### Third Party Libraries in React
+
+This is a very short chapter demonstrating how to use third
+party libraries in React - short answer, install with npm,
+import them at the top of you Javascript file and use
+appropriately.
+
+The specific example here is replacing the native fetch
+call with axios, which performs the same fetch but does
+the json conversion automatically, eliminating that call
+from the fetch version. The code notes that older browsers
+may not support fetch or that fetch may not operate in
+a headless environment where the browser is not available.
+So that's the motivation for the example.
